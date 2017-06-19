@@ -1,4 +1,8 @@
 function initMap() {
+	var directionsService = new google.maps.DirectionsService;
+    var directionsDisplay = new google.maps.DirectionsRenderer;
+
+
 	var map = new google.maps.Map(document.getElementById("map"), {
 		zoom: 5,
 		center: {lat: -9.1191427, lng: -77.0349046},
@@ -6,6 +10,7 @@ function initMap() {
 		zoomControl: false,
 		streetViewControl: false
 	});
+	directionsDisplay.setMap(map);
 
 	function buscar(){
 		if(navigator.geolocation) {
@@ -13,7 +18,9 @@ function initMap() {
 		}
 	}
 
+
 	document.getElementById("encuentrame").addEventListener("click", buscar);
+
 	var latitud, longitud;
 	var funcionExito = function(posicion) {
 		latitud = posicion.coords.latitude;
@@ -25,7 +32,7 @@ function initMap() {
 			map: map
 		});
 
-		map.setZoom(17);
+		map.setZoom(15);
 		map.setCenter({lat:latitud, lng:longitud});
 	}
 
@@ -33,10 +40,31 @@ function initMap() {
 		alert("Tenemos un problema con encontrar tu ubicación");
 	}
 
-	// BUSCADOR //
-	  var origen = document.getElementById('origen');
-	  var destino = document.getElementById('destino');
-	  var searchorigen = new google.maps.places.SearchBox(origen);
-	  var searchdestino = new google.maps.places.SearchBox(destino);
+
+		var start = document.getElementById('origen').value;
+		var end = document.getElementById('destino').value;
+	 	var searchorigen = new google.maps.places.SearchBox(origen);
+		var searchdestino = new google.maps.places.SearchBox(destino);
+
+		var direcciones = new google.maps.DirectionServices;
+		var request = {
+	    origin:start,
+	    destination:end,
+	    travelMode: 'DRIVING'
+	  	};
+	  
+	  	directionsService.route(request, function(response, status) {
+	    if (status == 'OK') {
+	      directionsDisplay.setDirections(response);
+	    }
+	  });
+	
+
+	/* BUSCADOR */
+		
+		var searchorigen = new google.maps.places.SearchBox(origen);
+		var searchdestino = new google.maps.places.SearchBox(destino);
+
+		
   
 };
