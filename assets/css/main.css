@@ -25,3 +25,8 @@ button{
 button:hover,button:focus{
 	outline: 0;
 }
+input{
+	margin: 15px auto;
+	padding: 5px 10px;
+	border-radius: 5px;
+}

@@ -32,4 +32,11 @@ function initMap() {
 	var funcionError = function (error) {
 		alert("Tenemos un problema con encontrar tu ubicación");
 	}
+
+	// BUSCADOR //
+	  var origen = document.getElementById('origen');
+	  var destino = document.getElementById('destino');
+	  var searchorigen = new google.maps.places.SearchBox(origen);
+	  var searchdestino = new google.maps.places.SearchBox(destino);
+  
 };
