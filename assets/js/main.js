@@ -1,8 +1,4 @@
 function initMap() {
-	var directionsService = new google.maps.DirectionsService;
-    var directionsDisplay = new google.maps.DirectionsRenderer;
-
-
 	var map = new google.maps.Map(document.getElementById("map"), {
 		zoom: 5,
 		center: {lat: -9.1191427, lng: -77.0349046},
@@ -10,7 +6,6 @@ function initMap() {
 		zoomControl: false,
 		streetViewControl: false
 	});
-	directionsDisplay.setMap(map);
 
 	function buscar(){
 		if(navigator.geolocation) {
@@ -41,30 +36,33 @@ function initMap() {
 	}
 
 
-		var start = document.getElementById('origen').value;
-		var end = document.getElementById('destino').value;
-	 	var searchorigen = new google.maps.places.SearchBox(origen);
-		var searchdestino = new google.maps.places.SearchBox(destino);
+		var start = document.getElementById('origen');
+		var end = document.getElementById('destino');
 
-		var direcciones = new google.maps.DirectionServices;
-		var request = {
-	    origin:start,
-	    destination:end,
-	    travelMode: 'DRIVING'
-	  	};
-	  
-	  	directionsService.route(request, function(response, status) {
-	    if (status == 'OK') {
-	      directionsDisplay.setDirections(response);
-	    }
-	  });
-	
+		new google.maps.places.Autocomplete(start);
+		new google.maps.places.Autocomplete(end);
 
-	/* BUSCADOR */
-		
-		var searchorigen = new google.maps.places.SearchBox(origen);
-		var searchdestino = new google.maps.places.SearchBox(destino);
+		var directionsService = new google.maps.DirectionsService;
+		var directionsDisplay = new google.maps.DirectionsRenderer;
 
-		
-  
+		var calcularRuta = function(directionsService,directionsDisplay){
+			directionsService.route({
+				origin: start.value,
+				destination: end.value,
+				travelMode: 'DRIVING'
+			}, function (response,status){
+				if (status === 'OK') {
+	      		directionsDisplay.setDirections(response);
+	    		}else{
+				window.alert("No encontramos una ruta");
+				}
+			});
+		}
+
+		directionsDisplay.setMap(map);
+		var trazarRuta = function(){
+			calcularRuta(directionsService,directionsDisplay);
+		};
+
+		document.getElementById("ruta").addEventListener('click', trazarRuta);  
 };
